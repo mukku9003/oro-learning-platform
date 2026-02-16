@@ -19,3 +19,20 @@ The files reported in PR conflict notifications were refreshed and validated tog
 2. Add lesson relation graph (prerequisites/recommended next).
 3. Add search index prebuild for faster lookup on large lesson sets.
 4. Add module dashboard views and lesson status analytics.
+# MVP Implementation Plan (Initial Build)
+
+## Purpose
+Document the first implementation slice after the product blueprint.
+
+## Delivered in this slice
+- Minimal runnable app shell (`public/index.php`)
+- Lesson domain model and repository parser (`src/`)
+- One sample lesson with metadata + snippet (`content/lessons/`)
+- Basic catalog/detail navigation
+
+## Immediate next slices
+1. Add module/layer filters.
+2. Add full markdown renderer and syntax highlighting.
+3. Add searchable problem index.
+4. Add progress tracking per lesson.
+5. Add a second lesson per module to validate content model scale.

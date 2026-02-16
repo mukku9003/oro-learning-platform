@@ -46,6 +46,16 @@ final class LessonRepository
                 return str_contains($haystack, $needle);
             }));
         }
+    public function findAll(): array
+    {
+        $files = glob($this->lessonsDirectory . '/*.md') ?: [];
+        $lessons = [];
+
+        foreach ($files as $file) {
+            $lessons[] = $this->parseLessonFile($file);
+        }
+
+        usort($lessons, static fn(Lesson $a, Lesson $b): int => strcmp($a->id, $b->id));
 
         return $lessons;
     }
@@ -73,6 +83,9 @@ final class LessonRepository
     public function findById(string $id): ?Lesson
     {
         foreach ($this->loadAll() as $lesson) {
+    public function findById(string $id): ?Lesson
+    {
+        foreach ($this->findAll() as $lesson) {
             if ($lesson->id === $id) {
                 return $lesson;
             }
@@ -120,6 +133,14 @@ final class LessonRepository
             id: (string)$meta['id'],
             title: (string)$meta['title'],
             module: (string)$meta['module'],
+        $frontmatterText = trim($matches[1]);
+        $body = trim($matches[2]);
+        $meta = $this->parseFrontmatter($frontmatterText);
+
+        return new Lesson(
+            id: (string)($meta['id'] ?? ''),
+            title: (string)($meta['title'] ?? 'Untitled'),
+            module: (string)($meta['module'] ?? 'unassigned'),
             difficulty: (string)($meta['difficulty'] ?? 'unknown'),
             summary: (string)($meta['summary'] ?? ''),
             problemStatement: (string)($meta['problem_statement'] ?? ''),
@@ -131,6 +152,12 @@ final class LessonRepository
             patternRationale: (string)($meta['pattern_rationale'] ?? ''),
             officialPatternReference: (string)($meta['official_pattern_reference'] ?? ''),
             sourceSnippet: trim((string)$matches[2]),
+            extensionPoints: $this->parseList((string)($meta['extension_points'] ?? '')),
+            steps: $this->parseList((string)($meta['steps'] ?? '')),
+            commonMistakes: $this->parseList((string)($meta['common_mistakes'] ?? '')),
+            patternRationale: (string)($meta['pattern_rationale'] ?? ''),
+            officialPatternReference: (string)($meta['official_pattern_reference'] ?? ''),
+            sourceSnippet: $body,
         );
     }
 
@@ -142,6 +169,8 @@ final class LessonRepository
         foreach (preg_split('/\n/', $frontmatterText) ?: [] as $line) {
             $line = trim((string)$line);
 
+        foreach (preg_split('/\n/', $frontmatterText) as $line) {
+            $line = trim((string)$line);
             if ($line === '' || str_starts_with($line, '#')) {
                 continue;
             }
@@ -153,6 +182,14 @@ final class LessonRepository
             }
 
             $result[trim($key)] = trim($value);
+            $parts = explode(':', $line, 2);
+            if (count($parts) !== 2) {
+                continue;
+            }
+
+            $key = trim($parts[0]);
+            $value = trim($parts[1]);
+            $result[$key] = $value;
         }
 
         return $result;
@@ -175,6 +212,9 @@ final class LessonRepository
             return array_values(array_filter(array_map('trim', $raw), static fn(string $item): bool => $item !== ''));
         }
 
+    /** @return string[] */
+    private function parseList(string $raw): array
+    {
         if ($raw === '') {
             return [];
         }
@@ -189,5 +229,8 @@ final class LessonRepository
         sort($values);
 
         return $values;
+        $parts = array_map(static fn(string $item): string => trim($item), explode('|', $raw));
+
+        return array_values(array_filter($parts, static fn(string $item): bool => $item !== ''));
     }
 }

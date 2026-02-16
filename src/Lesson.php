@@ -11,6 +11,9 @@ final class Lesson
 {
     /**
      * @param string[] $layers
+final class Lesson
+{
+    /**
      * @param string[] $extensionPoints
      * @param string[] $steps
      * @param string[] $commonMistakes

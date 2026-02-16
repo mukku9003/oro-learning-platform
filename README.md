@@ -19,6 +19,17 @@ This repository contains a runnable, task-driven MVP for the OroCommerce 6.1 lea
   - final working snippet
 - Markdown lesson source files with frontmatter metadata
 - Lightweight parser/repository to load, search, and filter lessons
+# OroCommerce 6.1 Developer Learning Platform (MVP Scaffold)
+
+This repository now contains the **first runnable foundation** of the learning platform described in the blueprint.
+
+## What is included
+
+- A minimal PHP web app entrypoint (`public/index.php`)
+- Lesson storage in markdown files with frontmatter metadata (`content/lessons/*.md`)
+- A lightweight lesson repository and frontmatter parser (`src/*`)
+- A simple lesson list page and lesson detail page
+- A starter architecture note for next implementation phases
 
 ## Run locally
 
