@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace OroLearningPlatform;
+
+final class Lesson
+{
+    /**
+     * @param string[] $extensionPoints
+     * @param string[] $steps
+     * @param string[] $commonMistakes
+     */
+    public function __construct(
+        public readonly string $id,
+        public readonly string $title,
+        public readonly string $module,
+        public readonly string $difficulty,
+        public readonly string $summary,
+        public readonly string $problemStatement,
+        public readonly string $architectureContext,
+        public readonly array $extensionPoints,
+        public readonly array $steps,
+        public readonly array $commonMistakes,
+        public readonly string $patternRationale,
+        public readonly string $officialPatternReference,
+        public readonly string $sourceSnippet,
+    ) {
+    }
+}
