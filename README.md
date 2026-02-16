@@ -1,3 +1,25 @@
+# OroCommerce 6.1 Developer Learning Platform (Working MVP)
+
+This repository contains a runnable, task-driven MVP for the OroCommerce 6.1 learning platform.
+
+## Current capabilities
+
+- Lesson catalog page with:
+  - full-text search (`q`)
+  - module filter (`module`)
+  - architecture layer filter (`layer`)
+- Lesson detail page with the full learning structure:
+  - problem statement
+  - Oro architecture context
+  - required extension points
+  - implementation steps
+  - common mistakes
+  - pattern rationale
+  - official reference
+  - final working snippet
+- Markdown lesson source files with frontmatter metadata
+- Lightweight parser/repository to load, search, and filter lessons
+=======
 # OroCommerce 6.1 Developer Learning Platform (MVP Scaffold)
 
 This repository now contains the **first runnable foundation** of the learning platform described in the blueprint.
