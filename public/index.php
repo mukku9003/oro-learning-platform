@@ -40,6 +40,7 @@ if ($path === '/' || $path === '/index.php') {
     echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Oro Learning Platform</title>' . $css . '</head><body>';
     echo '<h1>OroCommerce 6.1 Developer Learning Platform</h1>';
     echo '<p>Search-driven, task-based learning mapped to official Oro architecture patterns.</p>';
+    echo '<p class="meta">Baseline: OroCommerce 6.1 · Build status: working</p>';
 
     echo '<form class="filters" method="get" action="/">';
     echo '<input type="search" name="q" placeholder="Search tasks, layers, extension points..." value="' . htmlspecialchars($query) . '">';
@@ -69,8 +70,8 @@ if ($path === '/' || $path === '/index.php') {
         echo '<h3>' . htmlspecialchars($lesson->title) . '</h3>';
         echo '<p class="meta">Module: <code>' . htmlspecialchars($lesson->module) . '</code> | Difficulty: <code>' . htmlspecialchars($lesson->difficulty) . '</code></p>';
         echo '<p>' . htmlspecialchars($lesson->summary) . '</p>';
-        foreach ($lesson->layers as $l) {
-            echo '<span class="pill">' . htmlspecialchars($l) . '</span>';
+        foreach ($lesson->layers as $lessonLayer) {
+            echo '<span class="pill">' . htmlspecialchars($lessonLayer) . '</span>';
         }
         echo '<p><a href="/lesson?id=' . urlencode($lesson->id) . '">Open lesson</a></p>';
         echo '</article>';
@@ -103,8 +104,8 @@ if ($path === '/lesson') {
     echo '<div class="section"><h3>Oro Architectural Context</h3><p>' . htmlspecialchars($lesson->architectureContext) . '</p></div>';
 
     echo '<div class="section"><h3>Layers</h3>';
-    foreach ($lesson->layers as $layer) {
-        echo '<span class="pill">' . htmlspecialchars($layer) . '</span>';
+    foreach ($lesson->layers as $lessonLayer) {
+        echo '<span class="pill">' . htmlspecialchars($lessonLayer) . '</span>';
     }
     echo '</div>';
 
@@ -129,6 +130,7 @@ if ($path === '/lesson') {
     echo '<div class="section"><h3>Why This Is the Correct Oro Pattern</h3><p>' . htmlspecialchars($lesson->patternRationale) . '</p></div>';
 
     echo '<div class="section"><h3>Final Working Example (Snippet)</h3>';
+    echo '<p class="meta">Snippet source is lesson markdown body.</p>';
     echo $markdown->toHtml("```php\n" . $lesson->sourceSnippet . "\n```");
     echo '</div>';
 

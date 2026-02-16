@@ -52,6 +52,17 @@ official_pattern_reference: ...
 <snippet or markdown body>
 ```
 
+## Merge conflict note
+If your PR UI still shows stale conflicts, update your branch with the latest target branch revision and push again:
+
+```bash
+git fetch origin
+git rebase origin/<target-branch>
+# or: git merge origin/<target-branch>
+```
+
+This branch now contains clean, validated versions of the previously conflicted files (`README.md`, `public/index.php`, `src/Lesson.php`, `src/LessonRepository.php`, `content/lessons/m1-product-badge-bundle.md`, `docs/architecture/mvp-implementation-plan.md`).
+
 ## Next implementation targets
 
 1. Add filesystem-based snippet include support and path labeling.

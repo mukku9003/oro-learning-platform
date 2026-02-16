@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace OroLearningPlatform;
 
+/**
+ * Immutable lesson view model loaded from markdown frontmatter + body.
+ */
 final class Lesson
 {
     /**

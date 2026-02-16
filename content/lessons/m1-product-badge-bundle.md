@@ -26,3 +26,7 @@ $this->addEnumField(
         'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_TRUE],
     ]
 );
+
+// Apply changes:
+// php bin/console oro:migration:load --force
+// php bin/console oro:entity-extend:update --force

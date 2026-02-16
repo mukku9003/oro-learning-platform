@@ -13,9 +13,7 @@ final class LessonRepository
     {
     }
 
-    /**
-     * @return Lesson[]
-     */
+    /** @return Lesson[] */
     public function findAll(?string $module = null, ?string $layer = null, ?string $query = null): array
     {
         $lessons = $this->loadAll();
@@ -56,10 +54,8 @@ final class LessonRepository
     public function availableModules(): array
     {
         $modules = array_map(static fn(Lesson $lesson): string => $lesson->module, $this->loadAll());
-        $modules = array_values(array_unique($modules));
-        sort($modules);
 
-        return $modules;
+        return $this->uniqueSorted($modules);
     }
 
     /** @return string[] */
@@ -71,10 +67,7 @@ final class LessonRepository
             $layers = [...$layers, ...$lesson->layers];
         }
 
-        $layers = array_values(array_unique($layers));
-        sort($layers);
-
-        return $layers;
+        return $this->uniqueSorted($layers);
     }
 
     public function findById(string $id): ?Lesson
@@ -103,6 +96,7 @@ final class LessonRepository
         }
 
         usort($lessons, static fn(Lesson $a, Lesson $b): int => strcmp($a->id, $b->id));
+
         $this->cache = $lessons;
 
         return $lessons;
@@ -120,11 +114,12 @@ final class LessonRepository
         }
 
         $meta = $this->parseFrontmatter(trim($matches[1]));
+        $this->assertRequiredMeta($meta, ['id', 'title', 'module']);
 
         return new Lesson(
-            id: (string)($meta['id'] ?? ''),
-            title: (string)($meta['title'] ?? 'Untitled'),
-            module: (string)($meta['module'] ?? 'unassigned'),
+            id: (string)$meta['id'],
+            title: (string)$meta['title'],
+            module: (string)$meta['module'],
             difficulty: (string)($meta['difficulty'] ?? 'unknown'),
             summary: (string)($meta['summary'] ?? ''),
             problemStatement: (string)($meta['problem_statement'] ?? ''),
@@ -163,7 +158,17 @@ final class LessonRepository
         return $result;
     }
 
-    /** @param string|string[] $raw */
+    /** @param array<string, string> $meta @param string[] $required */
+    private function assertRequiredMeta(array $meta, array $required): void
+    {
+        foreach ($required as $field) {
+            if (!isset($meta[$field]) || trim($meta[$field]) === '') {
+                throw new \RuntimeException(sprintf('Lesson metadata field "%s" is required.', $field));
+            }
+        }
+    }
+
+    /** @param string|string[] $raw @return string[] */
     private function parseList(string|array $raw): array
     {
         if (is_array($raw)) {
@@ -175,5 +180,14 @@ final class LessonRepository
         }
 
         return array_values(array_filter(array_map('trim', explode('|', $raw)), static fn(string $item): bool => $item !== ''));
+    }
+
+    /** @param string[] $values @return string[] */
+    private function uniqueSorted(array $values): array
+    {
+        $values = array_values(array_unique($values));
+        sort($values);
+
+        return $values;
     }
 }
