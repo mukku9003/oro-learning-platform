@@ -19,6 +19,18 @@ This repository contains a runnable, task-driven MVP for the OroCommerce 6.1 lea
   - final working snippet
 - Markdown lesson source files with frontmatter metadata
 - Lightweight parser/repository to load, search, and filter lessons
+=======
+# OroCommerce 6.1 Developer Learning Platform (MVP Scaffold)
+
+This repository now contains the **first runnable foundation** of the learning platform described in the blueprint.
+
+## What is included
+
+- A minimal PHP web app entrypoint (`public/index.php`)
+- Lesson storage in markdown files with frontmatter metadata (`content/lessons/*.md`)
+- A lightweight lesson repository and frontmatter parser (`src/*`)
+- A simple lesson list page and lesson detail page
+- A starter architecture note for next implementation phases
 
 ## Run locally
 
@@ -28,44 +40,29 @@ php -S 127.0.0.1:8080 -t public
 
 Then open:
 
-- `http://127.0.0.1:8080/`
-- `http://127.0.0.1:8080/lesson?id=m1-product-badge-bundle`
+- `http://127.0.0.1:8080/` → lesson catalog
+- `http://127.0.0.1:8080/lesson?id=m1-product-badge-bundle` → sample lesson
 
-## Lesson metadata format
+## Project structure
 
 ```text
----
-id: m2-storefront-header-layout
-title: Customize Storefront Header with Layout Update
-module: module-2-storefront-layout
-difficulty: intermediate
-layers: frontend|layout|theme
-summary: ...
-problem_statement: ...
-architecture_context: ...
-extension_points: layout_update|twig_template|theme_inheritance
-steps: Step A|Step B|Step C
-common_mistakes: Mistake A|Mistake B
-pattern_rationale: ...
-official_pattern_reference: ...
----
-<snippet or markdown body>
+public/
+  index.php
+src/
+  Lesson.php
+  LessonRepository.php
+content/
+  lessons/
+    m1-product-badge-bundle.md
+docs/
+  architecture/
+    mvp-implementation-plan.md
+  orocommerce-6.1-learning-platform-blueprint.md
 ```
 
-## Merge conflict note
-If your PR UI still shows stale conflicts, update your branch with the latest target branch revision and push again:
+## Next steps
 
-```bash
-git fetch origin
-git rebase origin/<target-branch>
-# or: git merge origin/<target-branch>
-```
-
-This branch now contains clean, validated versions of the previously conflicted files (`README.md`, `public/index.php`, `src/Lesson.php`, `src/LessonRepository.php`, `content/lessons/m1-product-badge-bundle.md`, `docs/architecture/mvp-implementation-plan.md`).
-
-## Next implementation targets
-
-1. Add filesystem-based snippet include support and path labeling.
-2. Add persistent progress tracking (file or sqlite).
-3. Add version tags and compatibility badges (6.1 baseline).
-4. Add module navigation pages and completion milestones.
+1. Add module navigation and filters by Oro layer.
+2. Add code snippet renderer with file path labels.
+3. Add progress tracking and lesson completion state.
+4. Add search index generation and query UI.

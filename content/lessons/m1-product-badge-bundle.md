@@ -3,7 +3,6 @@ id: m1-product-badge-bundle
 title: Create ProductBadgeBundle and Add Product Badge Enum
 module: module-1-bundle-architecture
 difficulty: intermediate
-layers: backend|entity|migration
 summary: Build a custom Oro bundle that introduces a product badge enum field using official migration and extend patterns.
 problem_statement: The business needs reusable product badges like New and Trending without core modifications.
 architecture_context: Use bundle-level migrations plus Entity Extend to keep schema changes and UI metadata maintainable.
@@ -13,6 +12,9 @@ common_mistakes: Editing core entity files directly|Skipping entity-extend updat
 pattern_rationale: Oro extend + migration APIs preserve upgradability and keep metadata synchronized across environments.
 official_pattern_reference: OroCommerce 6.1 Backend > Entities > Extend Entities and Migrations documentation sections.
 ---
+<?php
+// Example migration snippet (illustrative)
+
 $enumCode = ExtendHelper::buildEnumCode('product', 'badge');
 $this->addEnumField(
     $schema,
